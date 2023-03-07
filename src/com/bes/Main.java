@@ -18,24 +18,15 @@ public class Main {
     private static String calc(String input) throws Exception {
         StringParser parser = new StringParser(input);
         Number result;
-        Number num1 = parser.numbers[0];
-        Number num2 = parser.numbers[1];
-        switch (parser.operation){
-            case ADD:
-                result = num1.add(num2);
-                break;
-            case SUB:
-                result = num1.sub(num2);
-                break;
-            case MULTI:
-                result = num1.multi(num2);
-                break;
-            case DIV:
-                result = num1.div(num2);
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + parser.operation);
-        }
+        Number left = parser.numbers[0];
+        Number right = parser.numbers[1];
+        result = switch (parser.operation) {
+            case ADD -> left.add(right);
+            case SUB -> left.sub(right);
+            case MULTI -> left.multi(right);
+            case DIV -> left.div(right);
+            default -> throw new Exception("Unexpected value: " + parser.operation);
+        };
         return result.toString();
     }
 }
