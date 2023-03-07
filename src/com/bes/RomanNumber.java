@@ -34,7 +34,7 @@ class RomanNumber extends Number{
         value = parse(number);
     }
 
-    public RomanNumber(int number) throws Exception {
+    public RomanNumber(int number) {
         value = number;
     }
 
@@ -57,15 +57,15 @@ class RomanNumber extends Number{
         }
 
         if (romanNumeral.length() > 0) {
-            throw new IllegalArgumentException(number + " cannot be converted to a Roman Numeral");
+            throw new Exception(number + " cannot be converted to a Roman Numeral");
         }
 
         return result;
     }
 
-    private String arabicToRoman(int number) {
+    private String arabicToRoman(int number) throws Exception {
         if ((number <= 0) || (number > 4000)) {
-            throw new IllegalArgumentException(number + " is not in range (0,4000]");
+            throw new Exception(number + " is not in range (0,4000]");
         }
 
         List<RomanNumeral> romanNumerals = RomanNumeral.getReverseSortedValues();
@@ -86,29 +86,51 @@ class RomanNumber extends Number{
         return sb.toString();
     }
 
+    public static boolean validate(String number){
+        String romanNumeral = number.toUpperCase();
+
+        List<RomanNumeral> romanNumerals = RomanNumeral.getReverseSortedValues();
+        int i = 0;
+        while ((romanNumeral.length() > 0) && (i < romanNumerals.size())) {
+            RomanNumeral symbol = romanNumerals.get(i);
+            if (romanNumeral.startsWith(symbol.name())) {
+                romanNumeral = romanNumeral.substring(symbol.name().length());
+            } else {
+                i++;
+            }
+        }
+
+        return romanNumeral.length() <= 0;
+    }
+
     @Override
-    public Number add(Number number) throws Exception {
+    public Number add(Number number) {
         return new RomanNumber(value + ((RomanNumber)number).value);
     }
 
     @Override
-    public Number sub(Number number) throws Exception {
+    public Number sub(Number number) {
         return new RomanNumber(value - ((RomanNumber)number).value);
     }
 
     @Override
-    public Number multi(Number number) throws Exception {
+    public Number multi(Number number) {
         return new RomanNumber(value * ((RomanNumber)number).value);
     }
 
     @Override
-    public Number div(Number number) throws Exception {
+    public Number div(Number number) {
         return new RomanNumber(value / ((RomanNumber)number).value);
     }
 
     @Override
     public String toString() {
-        return arabicToRoman(value);
+        try {
+            return arabicToRoman(value);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return null;
     }
 }
 

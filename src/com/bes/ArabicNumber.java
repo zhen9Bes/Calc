@@ -7,7 +7,7 @@ class ArabicNumber extends Number {
         value = parse(number);
     }
 
-    public ArabicNumber(int number) throws Exception{
+    public ArabicNumber(int number) {
         value = number;
     }
 
@@ -19,23 +19,32 @@ class ArabicNumber extends Number {
         return value;
     }
 
+    public static boolean validate(String number){
+        try{
+            Integer.parseInt(number);
+        }catch (Exception exception){
+            return false;
+        }
+        return true;
+    }
+
     @Override
-    public Number add(Number number) throws Exception {
+    public Number add(Number number) {
         return new ArabicNumber(value + ((ArabicNumber)number).value);
     }
 
     @Override
-    public Number sub(Number number) throws Exception {
+    public Number sub(Number number) {
         return new ArabicNumber(value - ((ArabicNumber)number).value);
     }
 
     @Override
-    public Number multi(Number number) throws Exception {
+    public Number multi(Number number) {
         return new ArabicNumber(value * ((ArabicNumber)number).value);
     }
 
     @Override
-    public Number div(Number number) throws Exception {
+    public Number div(Number number) {
         return new ArabicNumber(value / ((ArabicNumber)number).value);
     }
 
